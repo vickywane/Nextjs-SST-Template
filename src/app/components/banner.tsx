@@ -1,44 +1,17 @@
 "use client";
 import React, { useState } from "react";
-import { Table } from "sst/node/table";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import {
-  GetCommand,
-  UpdateCommand,
-  PutCommand,
-  DynamoDBDocumentClient,
-} from "@aws-sdk/lib-dynamodb";
 
-// async function subscribe(e : any, email: string) {
-//   e.preventDefault();
-
-//   const region = "us-east-2";
-
-//   try {
-//     const db = DynamoDBDocumentClient.from(
-//       new DynamoDBClient({
-//         region,
-//       })
-//     );
-
-//     const update = new PutCommand({
-//       TableName: Table.waitlist.tableName,
-//       Item: {
-//         email
-//       }
-//     });
-
-//     await db.send(update);
-
-//     // markUserAsSubscribed(!isUserSubscribed)
-//   } catch (e) {
-//     console.log("CREATE ERROR:", e);
-//   }
-// }
-
-export default function  Banner () {
+const Banner = () => {
   const [email, setEmail] = useState("");
   const [isUserSubscribed, markUserAsSubscribed] = useState(false);
+
+  const subscribeUser = (e: any) => {
+    e.preventDefault();
+
+    try {
+      markUserAsSubscribed(!isUserSubscribed);
+    } catch (e) {}
+  };
 
   return (
     <section>
@@ -49,8 +22,13 @@ export default function  Banner () {
             JuiceBox Is Coming Soon!{" "}
           </h1>
           <p className={"text-gray-300 text-center mt-8 max-w-[500px] m-auto"}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            printing and typesetting printing and typesetting industry.
+            Introducing <span className="font-bold"> JuiceBox </span> - Your
+            Ultimate Juice Commerce <br />
+            <br />
+            We believe in the power of pure, natural ingredients bursting with
+            flavor and health benefits. Our juice making commerce service brings
+            the fresh and vibrant juices right to your doorstep,
+            making it easier than ever to embrace a healthy lifestyle.
           </p>
 
           <br />
@@ -70,9 +48,9 @@ export default function  Banner () {
             <div className={"ml-6"}>
               <button
                 className={"h-[55px] border rounded px-12"}
-                onClick={(e) => subscribe(e, email)}
+                onClick={subscribeUser}
               >
-                Notify Me
+                Add Me To Waitlist
               </button>
             </div>
           </form>
@@ -98,4 +76,4 @@ export default function  Banner () {
   );
 };
 
-// export default async Banner;
+export default Banner;
