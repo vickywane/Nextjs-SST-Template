@@ -1,5 +1,5 @@
 import { SSTConfig } from "sst";
-import { NextjsSite, Bucket, Table } from "sst/constructs";
+import { NextjsSite, Table } from "sst/constructs";
 
 export default {
   config(_input) {
@@ -10,10 +10,9 @@ export default {
   },
   stacks(app) {
     app.stack(function Site({ stack }) {
-      const bucket  = new Bucket(stack, "public", )
-
       const table = new Table(stack, "waitlist", {
         fields: {
+          id: "string",
           email: "string",
           createdAt: "number"
         },
@@ -21,7 +20,7 @@ export default {
       })
 
       const site = new NextjsSite(stack, "site", {
-        bind: [ bucket, table ],
+        bind: [ table ],
         environment: {
           NEXT_PUBLIC_TABLE_NAME: table.tableName
         }

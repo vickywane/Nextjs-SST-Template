@@ -11,11 +11,10 @@ import { v4 as uuidv4 } from "uuid";
 export async function POST(req: Request) {
   const body = await req.json();
 
-  if (!body?.email) {
-    return NextResponse.json("Waitlist subscriber email is missing!", {
+  if (!body?.email || body?.email === "")
+    NextResponse.json("Waitlist subscriber email is missing!", {
       status: 400,
     });
-  }
 
   try {
     const db = DynamoDBDocumentClient.from(new DynamoDBClient({}));
