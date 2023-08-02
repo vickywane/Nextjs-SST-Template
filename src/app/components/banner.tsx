@@ -3,19 +3,27 @@ import React, { useState } from "react";
 
 const Banner = () => {
   const [email, setEmail] = useState("");
-  const [isUserSubscribed, markUserAsSubscribed] = useState(false);
+  const [subscribe, setSubscribe] = useState({
+    isSubscribed: false,
+    status: ""
+  });
+  const [loading, setLoading] = useState(false);
 
-  const subscribeUser = (e: any) => {
+  const subscribeUser = async (e: any) => {
     e.preventDefault();
 
     try {
-      markUserAsSubscribed(!isUserSubscribed);
-    } catch (e) {}
+       
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section>
-      {!isUserSubscribed ? (
+      {!subscribe.isSubscribed ? (
         <div>
           <h1 className={"text-center text-8xl font-bold"}>
             {" "}
@@ -27,8 +35,8 @@ const Banner = () => {
             <br />
             We believe in the power of pure, natural ingredients bursting with
             flavor and health benefits. Our juice making commerce service brings
-            the fresh and vibrant juices right to your doorstep,
-            making it easier than ever to embrace a healthy lifestyle.
+            the fresh and vibrant juices right to your doorstep, making it
+            easier than ever to embrace a healthy lifestyle.
           </p>
 
           <br />
@@ -36,6 +44,7 @@ const Banner = () => {
           <form className={"flex justify-center"}>
             <div className={"flex justify-center"}>
               <input
+                disabled={loading}
                 className={
                   "w-[450px] bg-gray-200 text-[#000] h-[55px] rounded px-2"
                 }
@@ -47,10 +56,11 @@ const Banner = () => {
 
             <div className={"ml-6"}>
               <button
+                disabled={loading}
                 className={"h-[55px] border rounded px-12"}
                 onClick={subscribeUser}
               >
-                Add Me To Waitlist
+                {!loading ? "Add Me To Waitlist" : "Adding You..."}
               </button>
             </div>
           </form>
@@ -67,8 +77,10 @@ const Banner = () => {
             You Are In The Waitlist!{" "}
           </h1>
           <p className={"text-gray-300 text-center mt-8 max-w-[500px] m-auto"}>
-            We have been added you to our waitlist. Immediately the app
-            launches, you will be the first to know!
+            {subscribe.status}
+          </p>
+          <p className={"text-gray-300 text-center mt-4 max-w-[500px] m-auto"}>
+            Immediately JuiceBox launches, you will be the first to know!
           </p>
         </div>
       )}
