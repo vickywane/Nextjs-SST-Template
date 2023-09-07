@@ -21,10 +21,11 @@ export default {
 
       const site = new NextjsSite(stack, "site", {
         bind: [ table ],
-        environment: {
-          NEXT_PUBLIC_TABLE_NAME: table.tableName
-        }
       });
+
+      site.attachPermissions(
+          [table]
+      )
 
       stack.addOutputs({
         SiteUrl: site.url,

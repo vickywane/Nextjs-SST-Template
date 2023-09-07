@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Table } from "sst/node/table"
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
 
     // Find existing subscribed email
     const getCommand = new GetCommand({
-      TableName: process.env.NEXT_PUBLIC_TABLE_NAME,
+      TableName: Table.waitlist.tableName,
       Key: {
         email: body?.email,
       },
